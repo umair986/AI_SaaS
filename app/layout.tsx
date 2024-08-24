@@ -1,16 +1,18 @@
+import { ClerkProvider, SignIn } from "@clerk/nextjs";
 import type { Metadata } from "next";
 import { IBM_Plex_Sans } from "next/font/google";
+import { cn } from "@/lib/utils";
 import "./globals.css";
 
-const inter = IBM_Plex_Sans({
+const IBMPlex = IBM_Plex_Sans({
   subsets: ["latin"],
   weight: ["400", "500", "600", "700"],
   variable: "--font-ibm-plex",
 });
 
 export const metadata: Metadata = {
-  title: "Cubo_Image_Editior",
-  description: "AI powered Image Generator",
+  title: "Cubo AI",
+  description: "AI-powered image generator",
 };
 
 export default function RootLayout({
@@ -19,8 +21,17 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className={inter.className}>{children}</body>
-    </html>
+    <ClerkProvider
+      appearance={{
+        variables: { colorPrimary: "#624cf5" },
+      }}
+    >
+      <html lang="en">
+        <body className={cn("font-IBMPlex antialiased", IBMPlex.variable)}>
+          <SignIn routing="hash" />
+          {children}
+        </body>
+      </html>
+    </ClerkProvider>
   );
 }
